@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/mixbytes/ipfs-testing/issues"
   },
-  "homepage": "https://github.com/mixbytes/ipfs-testing#readme"
+  "homepage": "https://github.com/mixbytes/ipfs-testing#readme",
+  "dependencies": {
+    "ipfs": "^0.29.3"
+  }
 }
