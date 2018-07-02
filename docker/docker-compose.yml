@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+    ipfsnode:
+        build: ipfsnode
+        hostname: ipfsnode
+        network_mode: "host"
+        volumes:
+            - /data/ipfs:/data/ipfs
+        ports:
+            - 8080:8080
+            - 4001:4001
+    nginx:
+        build: nginx
+        hostname: ipfsnginx
+        network_mode: "host"
+#        links:
+#            - ipfsnode
+        ports:
+            - "80:80"
+#           - "8080:8080"
+#            - "443:443"
+        command: [nginx-debug, '-g', 'daemon off;']
+
+
