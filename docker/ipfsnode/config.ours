@@ -41,10 +41,14 @@
       "/ip4/0.0.0.0/tcp/4001",
       "/ip6/::/tcp/4001"
     ],
-    "Announce": [],
-    "NoAnnounce": [],
-    "API": "/ip4/127.0.0.1/tcp/5001",
-    "Gateway": "/ip4/127.0.0.1/tcp/8080"
+    "Announce": [
+    ],
+    "NoAnnounce": [
+      "/ip4/172.16.0.0/ipcidr/12",
+      "/ip4/127.0.0.0/ipcidr/8"
+    ],
+    "API": "/ip4/0.0.0.0/tcp/5001",
+    "Gateway": "/ip4/0.0.0.0/tcp/8080"
   },
   "Mounts": {
     "IPFS": "/ipfs",
