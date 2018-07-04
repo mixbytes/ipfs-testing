@@ -44,7 +44,6 @@
     "Announce": [
     ],
     "NoAnnounce": [
-      "/ip4/172.16.0.0/ipcidr/12",
       "/ip4/127.0.0.0/ipcidr/8"
     ],
     "API": "/ip4/0.0.0.0/tcp/5001",
@@ -109,7 +108,7 @@
     },
     "PathPrefixes": [],
     "RootRedirect": "",
-    "Writable": false
+    "Writable": true
   },
   "API": {
     "HTTPHeaders": {
