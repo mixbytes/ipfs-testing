@@ -2,24 +2,19 @@ version: "3"
 
 services:
     ipfsnode:
-        build: ipfsnode
-        hostname: ipfsnode
-        network_mode: "host"
+        image: ipfs/go-ipfs:latest
         volumes:
             - /data/ipfs:/data/ipfs
+            - ./ipfsnode/config.ours:/data/ipfs/config:ro
         ports:
-            - 8080:8080
             - 4001:4001
+        command: daemon --migrate=true
+
     nginx:
-        build: nginx
-        hostname: ipfsnginx
-        network_mode: "host"
-#        links:
-#            - ipfsnode
+        image: nginx:1.15.1-alpine
+        volumes:
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./nginx/htpasswd:/etc/nginx/htpasswd:ro
         ports:
             - "80:80"
-#           - "8080:8080"
-#            - "443:443"
-        command: [nginx-debug, '-g', 'daemon off;']
-
-
+            - "5001:5001"
