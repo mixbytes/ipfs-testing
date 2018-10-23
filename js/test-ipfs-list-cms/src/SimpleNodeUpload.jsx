@@ -9,7 +9,7 @@ export default class IPFSUploadWidget extends PureComponent {
     this.state = {
       msg: '',
       url: null,
-	  uploadEndpoint: 'https://ipfs.smartz.io',
+	  uploadEndpoint: 'https://ipfs.dapplist-hackathon.curation.network',
 	  emptyDirHash: 'QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvA3Nn',
     }
   }
