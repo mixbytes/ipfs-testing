@@ -3,7 +3,7 @@ import axios from 'axios';
 import './App.css';
 const IPFS = require('ipfs');
 
-export default class IPFSUpdateWidget extends PureComponent {
+export default class IPFSUploadBrowserNodeWidget extends PureComponent {
   constructor(props) {
     super(props);
 

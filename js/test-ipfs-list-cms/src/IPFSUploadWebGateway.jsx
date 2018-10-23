@@ -2,7 +2,7 @@ import React, { Component, PureComponent } from 'react';
 import axios from 'axios';
 import './App.css';
 
-export default class IPFSUploadWidget extends PureComponent {
+export default class IPFSUploadWebGatewayWidget extends PureComponent {
   constructor(props) {
     super(props);
 

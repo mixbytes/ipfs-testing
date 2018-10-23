@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
-// import axios from 'axios';
-import IPFSUploadWidget from './IPFSUploadWidget.jsx';
-import IPFSUpdateWidget from './IPFSUpdateWidget.jsx';
-//import './App.css';
-const IPFS = require('ipfs')
 
+import IPFSUploadBrowserNodeWidget from './IPFSUploadBrowserNode.jsx';
+import IPFSUploadWebGatewayWidget from './IPFSUploadWebGateway.jsx';
+//import './App.css';
 
 class App extends Component {
-
 
   render() {
 	
     return (
-		// GET-PUT-directory widget <IPFSUploadWidget />
-		<IPFSUpdateWidget />
+		<div>
+			<h3>File upload via in-browser IPFS node using standard api(right way)</h3>
+			<IPFSUploadBrowserNodeWidget />
+			<br/>
+			<br/>
+			<br/>
+			<h3>File upload to drectory using simple HTTP PUT request to web gateway on our IPFS node</h3>
+			<IPFSUploadWebGatewayWidget />
+		</div>
       );                                                                                                                                                                   
   }
 }
