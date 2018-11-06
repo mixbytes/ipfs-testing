@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+        .then(() => navigator.serviceWorker.ready.then((worker) => {
+            worker.sync.register('syncdata')
+        }))
+        .catch((err) => console.log(err));
+    }
+
+
+    // function afterRegister() {
+    //     document.body.innerHTML = `
+    //         <div>
+    //             <p>With dir(https://ipfs.io/ipfs/QmW2WQi7j6c7UgJTarActp7tDNikE4B2qXtFCfLPdsgaTQ/cat.jpg)</p>
+    //             <img src="https://ipfs.io/ipfs/QmW2WQi7j6c7UgJTarActp7tDNikE4B2qXtFCfLPdsgaTQ/cat.jpg">
+    //         </div>
+    //
+    //         <div>
+    //             <p>Without dir(https://ipfs.io/ipfs/QmTq42T1LBXiubNNEiGN8howjGKFWYPGUuiZQU68ffqvaq)</p>
+    //             <img src="https://ipfs.io/ipfs/QmTq42T1LBXiubNNEiGN8howjGKFWYPGUuiZQU68ffqvaq">
+    //         </div>`;
+    // }
+
+
+    function loadImage() {
+        let hash = document.getElementById('hash').value;
+        let container = document.getElementById('container');
+
+        container.innerHTML = `<img src="https://ipfs.io/ipfs/${hash}">`;
+    }
+</script>
+
+<body>
+    <form onsubmit="loadImage(); return false">
+        <p><b>IPFS Hash of image:</b><br>
+            <input id="hash" type="text" name='hash' size="40">
+        </p>
+        <p><input type="submit"></p>
+    </form>
+
+    <p>Examples:
+        <ul>
+            <li>Cat(with dir): QmW2WQi7j6c7UgJTarActp7tDNikE4B2qXtFCfLPdsgaTQ/cat.jpg</li>
+            <li>Noise: QmTq42T1LBXiubNNEiGN8howjGKFWYPGUuiZQU68ffqvaq</li>
+        </ul>
+    </p>
+
+    <div id="container"></div>
+</body>
+
+</html>
