@@ -1,71 +1,100 @@
 import React, { Component, PureComponent } from 'react';
 import axios from 'axios';
 import './App.css';
-const IPFS = require('ipfs');
+//const IPFS = require('ipfs');
+//const Buffer = window.IpfsApi().Buffer;
+
+const ipfsAPI = require('ipfs-api')
+// create a stream from a file, which enables uploads of big files without allocating memory twice
+const fileReaderPullStream = require('pull-file-reader')
 
 export default class IPFSUploadBrowserNodeWidget extends PureComponent {
-  constructor(props) {
-    super(props);
-
+  constructor () {
+    super()
     this.state = {
-      msg: '',
-      url: null,
+      added_file_hash: null
     }
-		this.node = new IPFS({start: false});
+    this.ipfsApi = ipfsAPI({host: 'ipfs.twitch666.mixbytes.io', port: '5001', protocol: 'https'});
 
-		this.node.on('ready', async () => {
-  		try {
-    		await this.node.start()
-				console.log('ipfs node started!')
-			} catch (error) {
-				console.log('ERROR: ipfs node failed to start: ' + error);
-			}
-		});
-		this.handleUploadFile = this.handleUploadFile.bind(this);
-
+    // bind methods
+    this.captureFile = this.captureFile.bind(this)
+    this.saveToIpfs = this.saveToIpfs.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  readFile = async(file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new window.FileReader();
-
-      reader.onload = event => resolve(event.target.result);
-      reader.onerror = event => reject(event.target.error);
-      reader.onloadstart = event => this.setState({ msg: 'Reading...' });
-
-      reader.readAsText(file);
-    });
+  captureFile (event) {
+    event.stopPropagation()
+    event.preventDefault()
+    const file = event.target.files[0]
+    if (document.getElementById("keepFilename").checked) {
+      this.saveToIpfsWithFilename(file)
+    } else {
+      this.saveToIpfs(file)
+    }
   }
 
-  handleUploadFile = async(ev) => {
-		ev.preventDefault();
-    const file = await ev.target.files[0];
-		if (!file) {
-      this.setState({ msg: "no file" });
-			return true
-		}
-    
-    this.setState({ msg: 'Reading file...' });
-  	let data = await this.readFile(file);
-    this.setState({ msg: 'Uploading to IPFS...' });
-		let res = await this.node.files.add(new Buffer(data));
-    this.setState({ msg: "file uploaded, url: https://ipfs.smartz.io/ipfs/" + res[0]['hash'] });
-		
-		console.log(res);
-	}
+  // Example #1
+  // Add file to IPFS and return a CID
+  saveToIpfs (file) {
+    let ipfsId
+    const fileStream = fileReaderPullStream(file)
+    this.ipfsApi.add(fileStream, { progress: (prog) => console.log(`received: ${prog}`) })
+      .then((response) => {
+        console.log(response)
+        ipfsId = response[0].hash
+        console.log(ipfsId)
+        this.setState({added_file_hash: ipfsId})
+      }).catch((err) => {
+        console.error(err)
+      })
+  }
+
+  // Example #2
+  // Add file to IPFS and wrap it in a directory to keep the original filename
+  saveToIpfsWithFilename (file) {
+    let ipfsId
+    const fileStream = fileReaderPullStream(file)
+    const fileDetails = {
+      path: file.name,
+      content: fileStream
+    }
+    const options = {
+      wrapWithDirectory: true,
+      progress: (prog) => console.log(`received: ${prog}`)
+    }
+    this.ipfsApi.add(fileDetails, options)
+      .then((response) => {
+        console.log(response)
+        // CID of wrapping directory is returned last
+        ipfsId = response[response.length-1].hash
+        console.log(ipfsId)
+        this.setState({added_file_hash: ipfsId})
+      }).catch((err) => {
+        console.error(err)
+      })
+  }
+
+  handleSubmit (event) {
+    event.preventDefault()
+  }
+
+
 
   render() {
 
     return (
-      <div>
-        <p>
-          <input
-            type="file"
-            onChange={this.handleUploadFile}
-          />
-        </p>
-        {this.state.url ? (<p>{this.state.url}</p>) : null}
-        <p>{this.state.msg}</p>
+
+	<div>
+        <form id='ipfsUploadForm' onSubmit={this.handleSubmit}>
+          <input type='file' onChange={this.captureFile} /><br/>
+          <label htmlFor='keepFilename'><input type='checkbox' id='keepFilename' name='keepFilename' /> keep filename</label>
+        </form>
+        <div>
+          <a target='_blank'
+            href={'https://ipfs.smartz.io/ipfs/' + this.state.added_file_hash}>
+            {this.state.added_file_hash}
+          </a>
+        </div>
       </div>
     );
   }

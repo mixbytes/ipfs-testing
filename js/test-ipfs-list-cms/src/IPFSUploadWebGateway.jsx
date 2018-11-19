@@ -27,7 +27,7 @@ export default class IPFSUploadWebGatewayWidget extends PureComponent {
   }
 
   uploadIpfs(data) {
-    return axios.put(this.state.uploadEndpoint + '/ipfs/' + this.state.emptyDirHash + '/file', data);
+    return axios.post(this.state.uploadEndpoint + '/ipfs/', data);
   }
 
   onChange = event => {

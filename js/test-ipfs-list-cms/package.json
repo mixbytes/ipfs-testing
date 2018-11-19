@@ -5,9 +5,12 @@
   "dependencies": {
     "axios": "^0.18.0",
     "ipfs": "^0.32.3",
+    "ipfs-api": "^26.1.2",
     "js-ipfs": "0.0.301",
+    "pull-file-reader": "^1.0.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-load-image": "^0.1.6",
     "react-scripts": "2.0.5"
   },
   "scripts": {
