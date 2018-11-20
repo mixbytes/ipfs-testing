@@ -10,10 +10,7 @@ import axios from 'axios';
 class App extends Component {
 	componentWillMount() {
     this.setState({
-      // canvasA: {
-      //  canvasWidth: 200,
-      //  canvasHeight: 200
-      //}
+		
     })
   }
 	componentDidMount() {
@@ -27,16 +24,16 @@ class App extends Component {
          	let reader = new FileReader();
          	reader.readAsArrayBuffer(response.data); 
          	reader.onloadend = function() {
-			let urlCreator = window.URL || window.webkitURL;
-			
-			let  blob = new Blob([reader.result], {type: 'image/jpg'});
-			let url = urlCreator.createObjectURL(blob);
-			console.log('Inserting an img...');
-			let img = new Image();
-			img.src = url;
-			img.alt = "wfwfw";
-			document.body.appendChild(img);
-			self.setState({img_base64_datauri: reader.result});
+				let urlCreator = window.URL || window.webkitURL;
+				
+				let  blob = new Blob([reader.result], {type: 'image/jpg'});
+				let url = urlCreator.createObjectURL(blob);
+				console.log('Inserting an img...');
+				let img = new Image();
+				img.src = url;
+				img.alt = "wfwfw";
+				document.body.appendChild(img);
+				self.setState({img_base64_datauri: reader.result});
          	}
     	});
    	} 

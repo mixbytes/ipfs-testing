@@ -94,6 +94,8 @@ export default class IPFSUploadBrowserNodeWidget extends PureComponent {
             href={'https://ipfs.smartz.io/ipfs/' + this.state.added_file_hash}>
             {this.state.added_file_hash}
           </a>
+		  <br/>
+		  <img src={'https://ipfs.smartz.io/ipfs/' + this.state.added_file_hash} />
         </div>
       </div>
     );
